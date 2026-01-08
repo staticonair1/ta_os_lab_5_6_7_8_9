@@ -104,12 +104,87 @@ ORANGE
 <img width="624" height="246" alt="image" src="https://github.com/user-attachments/assets/a3e615df-85fd-498d-8c0f-e204ba59c3ed" />
 
 
- 
- 
- 
-فارسی بهم ریخت
+ 8-->
+1
+-c به فقط کامپایل میکند و مرلحه لینتک کردن در نظر گرفته نمیشود
+یک خروجی .o هم میدهد که برای برای پروژه‌های چندفایلی کامپایل جداگانه هر فایل
+افزایش سرعت build
+استفاده میشود.
+
+2-->
+
+این دستورات در دیباگر gdb استفاده می‌شوند.
+
+🔹 step
+
+وارد داخل تابع می‌شود
+
+برای بررسی دقیق اجرای توابع
+
+step
 
 
+📌 اگر خط فعلی شامل فراخوانی تابع باشد، وارد بدنه تابع می‌شود.
+
+🔹 next
+
+تابع را به‌صورت کامل اجرا می‌کند
+
+وارد جزئیات تابع نمی‌شود
+
+next
 
 
-6
+📌 برای عبور سریع از توابعی که مهم نیستند
+
+
+3-->
+
+<img width="824" height="528" alt="image" src="https://github.com/user-attachments/assets/d993a0ef-859e-458a-9c59-1f55b9eb544d" />
+
+
+فایل helper.h
+#ifndef HELPER_H
+#define HELPER_H
+
+void helper();
+
+#endif
+
+
+فایل helper.c
+#include <stdio.h>
+#include "helper.h"
+
+void helper() {
+    printf("Hello from helper!\n");
+}
+
+فایل main.c
+#include "helper.h"
+
+int main() {
+    helper();
+    return 0;
+}
+
+فایل Makefile
+CC = gcc
+CFLAGS = -Wall
+
+all: program
+
+program: main.o helper.o
+	$(CC) main.o helper.o -o program
+
+main.o: main.c helper.h
+	$(CC) $(CFLAGS) -c main.c
+
+helper.o: helper.c helper.h
+	$(CC) $(CFLAGS) -c helper.c
+
+clean:
+	rm -f *.o program
+
+  <img width="599" height="234" alt="image" src="https://github.com/user-attachments/assets/52d87b57-a0c2-4718-9abb-25c7ba1b54bc" />
+
